@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Search from './pages/Search';
@@ -12,8 +12,10 @@ import MangaDetails from './pages/MangaDetails';
 import Reader from './pages/Reader';
 
 export default function App() {
+  const Router = import.meta.env.PROD ? HashRouter : BrowserRouter;
+
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -23,6 +25,6 @@ export default function App() {
         </Route>
         <Route path="/read/:mangaId/:chapterId" element={<Reader />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }

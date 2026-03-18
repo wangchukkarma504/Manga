@@ -1,4 +1,6 @@
-const BASE_URL = '/api/mangadex';
+const BASE_URL = import.meta.env.DEV
+  ? '/api/mangadex'
+  : 'https://api.mangadex.org';
 
 export async function fetchMangaList(params: Record<string, any> = {}) {
   const url = new URL(`${BASE_URL}/manga`, window.location.origin);

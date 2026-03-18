@@ -31,3 +31,19 @@ Examples:
 2. Static deployment: set `VITE_MANGADEX_API_BASE` to something like `https://your-proxy.example.com/api/mangadex`.
 
 Without that proxy, the GitHub Pages site will load but API requests will fail with browser CORS errors.
+
+### Cloudflare Worker Proxy
+
+This repo includes a minimal proxy example in [proxy/cloudflare-worker.js](proxy/cloudflare-worker.js).
+
+To deploy it:
+
+1. Install Wrangler: `npm install -g wrangler`
+2. Copy [proxy/wrangler.toml.example](proxy/wrangler.toml.example) to `proxy/wrangler.toml`
+3. From the `proxy` directory, run: `wrangler deploy`
+4. Copy the deployed Worker URL
+5. In GitHub, open your repository settings and add an Actions variable named `VITE_MANGADEX_API_BASE`
+6. Set it to `https://your-worker-subdomain.workers.dev/api/mangadex`
+7. Push to `main` to rebuild GitHub Pages with the proxy URL embedded
+
+After that, your Pages site will request manga data through the Worker instead of calling MangaDex directly from the browser.

@@ -1,0 +1,6 @@
+name = "manga-mangadex-proxy"
+main = "cloudflare-worker.js"
+compatibility_date = "2026-03-18"
+
+[observability]
+enabled = true

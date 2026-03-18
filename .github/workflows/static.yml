@@ -24,6 +24,8 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
+    env:
+      VITE_MANGADEX_API_BASE: ${{ vars.VITE_MANGADEX_API_BASE }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

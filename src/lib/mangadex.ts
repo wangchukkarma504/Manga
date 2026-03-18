@@ -1,9 +1,12 @@
-const BASE_URL = import.meta.env.DEV
-  ? '/api/mangadex'
-  : 'https://api.mangadex.org';
+const DEFAULT_PROXY_PATH = '/api/mangadex';
+const BASE_URL = import.meta.env.VITE_MANGADEX_API_BASE || DEFAULT_PROXY_PATH;
+
+function createApiUrl(path: string) {
+  return new URL(`${BASE_URL}${path}`, window.location.origin);
+}
 
 export async function fetchMangaList(params: Record<string, any> = {}) {
-  const url = new URL(`${BASE_URL}/manga`, window.location.origin);
+  const url = createApiUrl('/manga');
   url.searchParams.append('includes[]', 'cover_art');
   url.searchParams.append('includes[]', 'author');
   url.searchParams.append('availableTranslatedLanguage[]', 'en');
@@ -22,7 +25,7 @@ export async function fetchMangaList(params: Record<string, any> = {}) {
 }
 
 export async function fetchMangaDetails(id: string) {
-  const url = new URL(`${BASE_URL}/manga/${id}`, window.location.origin);
+  const url = createApiUrl(`/manga/${id}`);
   url.searchParams.append('includes[]', 'cover_art');
   url.searchParams.append('includes[]', 'author');
   const res = await fetch(url.toString());
@@ -31,7 +34,7 @@ export async function fetchMangaDetails(id: string) {
 }
 
 export async function fetchMangaChapters(mangaId: string, offset = 0, limit = 100) {
-  const url = new URL(`${BASE_URL}/manga/${mangaId}/feed`, window.location.origin);
+  const url = createApiUrl(`/manga/${mangaId}/feed`);
   url.searchParams.append('translatedLanguage[]', 'en');
   url.searchParams.append('order[chapter]', 'desc');
   url.searchParams.append('limit', limit.toString());
@@ -43,13 +46,13 @@ export async function fetchMangaChapters(mangaId: string, offset = 0, limit = 10
 }
 
 export async function fetchChapterPages(chapterId: string) {
-  const res = await fetch(`${BASE_URL}/at-home/server/${chapterId}`);
+  const res = await fetch(createApiUrl(`/at-home/server/${chapterId}`).toString());
   if (!res.ok) throw new Error('Failed to fetch chapter pages');
   return res.json();
 }
 
 export async function fetchMangaTags() {
-  const url = new URL(`${BASE_URL}/manga/tag`, window.location.origin);
+  const url = createApiUrl('/manga/tag');
   const res = await fetch(url.toString());
   if (!res.ok) throw new Error('Failed to fetch tags');
   return res.json();

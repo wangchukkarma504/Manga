@@ -1,0 +1,5 @@
+{
+  "name": "Remix: MangaReader",
+  "description": "A mobile-optimized manga reader app using the public MangaDex API. Features search, favorites, reading progress tracking, and infinite scrolling.",
+  "requestFramePermissions": []
+}
